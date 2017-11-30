@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const bluebird = require('bluebird')
 const config = require('./config')
+const passport = require('passport')
 
 const app = express()
 
@@ -21,6 +22,9 @@ mongoose.connect(config.database, {useMongoClient: true})
 // Middleware setting
 app.use(cors())
 app.use(bodyParser.json())
+app.use(passport.initialize())
+app.use(passport.session())
+require('./config/passport')(passport)
 
 // Set Static Foler
 app.use(express.static(path.join(__dirname, 'public')))
